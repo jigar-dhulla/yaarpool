@@ -15,15 +15,10 @@ YaarPool emphasizes trust and familiarity among users by organizing them into gr
 - Community-driven: Foster a community of riders collaborating for sustainable transportation.
 
 ## Installation
-ToDo
+TODO
 
 ## Contributing
-Contributions are welcome! To contribute to YaarPool, please follow these steps:
-1. Fork the repository.
-2. Create a new branch for your feature: `git checkout -b feature-name`
-3. Make your changes and commit them: `git commit -m "Add feature"`
-4. Push your changes to the new branch: `git push origin feature-name`
-5. Submit a pull request outlining the changes you have made.
+TODO
 
 ## License
 YaarPool is licensed under the GNU General Public License (GPL). For more information, please see the [LICENSE](LICENSE) file.

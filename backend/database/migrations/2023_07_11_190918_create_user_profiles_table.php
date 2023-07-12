@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
+            $table->string('bio', 1024);
+            $table->string('occupation')->nullable();
             $table->time('start_time');
             $table->time('end_time');
             $table->timestamps();

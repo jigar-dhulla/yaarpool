@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('occupation')->nullable();
             $table->time('start_time');
             $table->time('end_time');
+            $table->boolean('has_vehicle');
+            $table->boolean('four_wheeler')->nullable();
+            $table->boolean('twitter_url')->nullable();
+            $table->boolean('linkedin_url')->nullable();
             $table->timestamps();
         });
     }

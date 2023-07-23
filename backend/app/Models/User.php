@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -48,6 +49,19 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Establishment::class)
             ->using(EstablishmentUser::class)
+            ->withTimestamps()
+            ->withPivot(['role_id']);
+    }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function routes(): BelongsToMany
+    {
+        return $this->belongsToMany(Route::class)
+            ->using(RouteUser::class)
             ->withTimestamps();
     }
 }

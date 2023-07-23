@@ -23,7 +23,10 @@ class Establishment extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->using(EstablishmentUser::class)->withTimestamps();
+        return $this->belongsToMany(User::class)
+            ->using(EstablishmentUser::class)
+            ->withTimestamps()
+            ->withPivot(['role_id']);
     }
 
     public function routesAsOrigin(): HasMany

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->enum('type', ['sublocality', 'neighbourhood', 'point_of_interest', 'society']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

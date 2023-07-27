@@ -13,7 +13,7 @@ class EstablishmentController extends Controller
      */
     public function index()
     {
-        //
+        return view('establishment.index');
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EstablishmentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/** Start Breeze */
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -29,3 +31,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+/** End Breeze */
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/establishments', [EstablishmentController::class, 'index']);
+});

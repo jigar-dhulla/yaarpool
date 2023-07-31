@@ -1,22 +1,19 @@
 
 <div>
     <div class="container mx-auto">
+        <div wire:ignore id="map" style="width:800px;height:400px;"></div>
         <form method="POST" wire:submit="create">
             @csrf
             <div>
-                <label for="name">Name</label>
-                <input type="text" wire:model.lazy="name" class="w-full py-2 rounded">
-                @error('name')
-                <span class="text-red-600">{{ $message }}</span>
-                @enderror
+                <livewire:google-places-autocomplete />
             </div>
-            <div class="mt-8">
+            {{-- <div class="mt-8">
                 <label class="block mb-2 text-xl">Type </label>
                 <input wire:model.lazy="type" rows="3" cols="20" class="w-full rounded" />
                 @error('type')
                 <span class="text-red-600">{{ $message }}</span>
                 @enderror
-            </div>
+            </div> --}}
             <button type="submit" class="px-4 py-2 mt-4 text-white bg-blue-600 rounded">
                 Submit
             </button>
@@ -36,7 +33,7 @@
                                 Title
                             </th>
                             <th class="px-6 py-3 text-left text-gray-500 border-b border-gray-200 bg-gray-50">
-                                Edit
+                                Type
                             </th>
                             <th class="px-6 py-3 text-left text-gray-500 border-b border-gray-200 bg-gray-50">
                                 Delete
@@ -84,3 +81,40 @@
         </div>
     </div>
 </div>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key={{ $apiKey }}&libraries=places&callback=initMap">
+</script>
+<script>
+    /* How to initialize the map */
+    let map;
+    let userPosition;
+
+    async function initMap() {
+        // Request needed libraries.
+        //@ts-ignore
+        const { Map } = await google.maps.importLibrary("maps");
+        const { Marker } = await google.maps.importLibrary("marker");
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+        function showError( error ) {
+            console.log( 'getCurrentPosition returned error', error);
+        }
+
+        function showPosition(position) {
+            userPosition = { "lat": position.coords.latitude, "lng": position.coords.longitude};
+            const marker = new Marker({
+                position: userPosition,
+                map: map,
+                title: 'Selected Establishment',
+            });
+            map.setCenter(userPosition);
+        }
+
+        const position = { lat: {{ $userLocationLat }}, lng: {{ $userLocationLng }} };
+
+        map = new Map(document.getElementById("map"), {
+            zoom: 12,
+            center: position,
+            mapId: "ESTABLISHMENT_MAP_ID",
+        });
+    }
+</script>

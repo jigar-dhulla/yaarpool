@@ -10,6 +10,8 @@ use Livewire\Component;
 
 class EstablishmentCreateForm extends Component
 {
+    public $userLocationLat = 17.00;
+    public $userLocationLng = 81.031;
     public $name;
     public $type;
 
@@ -43,7 +45,8 @@ class EstablishmentCreateForm extends Component
         /** @var User $user */
         $user = Auth::user();
         return view('livewire.establishment-create-form', [
-            'establishments' => $user->establishments
+            'establishments' => $user->establishments,
+            'apiKey' => config('services.google_maps.api_key'),
         ]);
     }
 }

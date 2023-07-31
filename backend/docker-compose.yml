@@ -106,6 +106,8 @@ services:
         restart: always
         ports:
             - 8080:80
+        depends_on:
+            - mysql
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_DATABASE: '${DB_DATABASE}'

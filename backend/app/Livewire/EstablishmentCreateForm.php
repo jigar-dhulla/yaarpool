@@ -6,6 +6,7 @@ use App\Models\Establishment;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class EstablishmentCreateForm extends Component
@@ -19,6 +20,13 @@ class EstablishmentCreateForm extends Component
         'name' => 'required',
         'type' => 'required',
     ];
+    
+    #[On('place-selected')] 
+    public function storeSelectedEstablishment($selectedPrediction)
+    {
+        $this->name = $selectedPrediction['description'];
+        $this->type = 'society';
+    }
 
     public function create()
     {
@@ -32,7 +40,6 @@ class EstablishmentCreateForm extends Component
         $user->establishments()->attach($establishment, [
             'role_id' => Role::whereName(Role::ROLE_ADMIN)->first()->id
         ]);
-        $this->reset();
     }
 
     public function destroy($id)

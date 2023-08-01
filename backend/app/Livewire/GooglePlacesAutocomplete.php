@@ -7,7 +7,13 @@ use Livewire\Component;
 class GooglePlacesAutocomplete extends Component
 {
     public $search;
-    public $predictions = [];
+    public $predictions;
+
+    public function mount()
+    {
+        $this->search = "";
+        $this->predictions = [];
+    }
 
     public function updatedSearch()
     {
@@ -22,12 +28,17 @@ class GooglePlacesAutocomplete extends Component
 
         $response = file_get_contents($url);
         $predictions = json_decode($response, true);
-
+        
         return $predictions['predictions'] ?? [];
     }
 
     public function selectPrediction($placeId)
     {
+        $predictions = collect($this->predictions)->keyBy('place_id');
+        $this->search = $predictions[$placeId]["description"];
+        $this->predictions = [];
+        $this->dispatch('place-selected', selectedPrediction: $predictions[$placeId])
+            ->to(EstablishmentCreateForm::class);
     }
 
     public function render()

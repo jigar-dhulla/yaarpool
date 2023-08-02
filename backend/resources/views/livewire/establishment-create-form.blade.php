@@ -1,11 +1,14 @@
 
 <div>
     <div class="container mx-auto">
-        <div wire:ignore id="map" style="width:800px;height:400px;"></div>
         <form method="POST" wire:submit="create">
             @csrf
             <div>
+                <livewire:google-map />
+            </div>
+            <div>
                 <livewire:google-places-autocomplete />
+                @if(isset($name)) Selected Establishment: {{ $name }} @endif
             </div>
             {{-- <div class="mt-8">
                 <label class="block mb-2 text-xl">Type </label>
@@ -81,40 +84,3 @@
         </div>
     </div>
 </div>
-<script async
-    src="https://maps.googleapis.com/maps/api/js?key={{ $apiKey }}&libraries=places&callback=initMap">
-</script>
-<script>
-    /* How to initialize the map */
-    let map;
-    let userPosition;
-
-    async function initMap() {
-        // Request needed libraries.
-        //@ts-ignore
-        const { Map } = await google.maps.importLibrary("maps");
-        const { Marker } = await google.maps.importLibrary("marker");
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-        function showError( error ) {
-            console.log( 'getCurrentPosition returned error', error);
-        }
-
-        function showPosition(position) {
-            userPosition = { "lat": position.coords.latitude, "lng": position.coords.longitude};
-            const marker = new Marker({
-                position: userPosition,
-                map: map,
-                title: 'Selected Establishment',
-            });
-            map.setCenter(userPosition);
-        }
-
-        const position = { lat: {{ $userLocationLat }}, lng: {{ $userLocationLng }} };
-
-        map = new Map(document.getElementById("map"), {
-            zoom: 12,
-            center: position,
-            mapId: "ESTABLISHMENT_MAP_ID",
-        });
-    }
-</script>

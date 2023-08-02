@@ -6,14 +6,8 @@ use Livewire\Component;
 
 class GooglePlacesAutocomplete extends Component
 {
-    public $search;
-    public $predictions;
-
-    public function mount()
-    {
-        $this->search = "";
-        $this->predictions = [];
-    }
+    public $search = "";
+    public $predictions = [];
 
     public function updatedSearch()
     {
@@ -32,13 +26,29 @@ class GooglePlacesAutocomplete extends Component
         return $predictions['predictions'] ?? [];
     }
 
+    private function getPlace($placeId)
+    {
+        $apiKey = config('services.google_maps.api_key');
+        // TODO: make service layer
+        $url = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" . urlencode($placeId) 
+            . "&key=" . $apiKey
+            . "&sesstiontoken=" . session()->getId()
+            . "&fields=formatted_address,name,geometry,type,vicinity,address_components,adr_address";
+
+        $response = file_get_contents($url);
+        $response = json_decode($response, true);
+
+        if($response['status'] != "OK"){
+            ray($response);
+        }
+        return $response['result'];
+    }
+
     public function selectPrediction($placeId)
     {
-        $predictions = collect($this->predictions)->keyBy('place_id');
-        $this->search = $predictions[$placeId]["description"];
         $this->predictions = [];
-        $this->dispatch('place-selected', selectedPrediction: $predictions[$placeId])
-            ->to(EstablishmentCreateForm::class);
+        $prediction = $this->getPlace($placeId);
+        $this->dispatch('place-selected', selectedPrediction: $prediction);
     }
 
     public function render()

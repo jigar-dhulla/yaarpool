@@ -11,8 +11,6 @@ use Livewire\Component;
 
 class EstablishmentCreateForm extends Component
 {
-    public $userLocationLat = 17.00;
-    public $userLocationLng = 81.031;
     public $name;
     public $type;
 
@@ -24,7 +22,11 @@ class EstablishmentCreateForm extends Component
     #[On('place-selected')] 
     public function storeSelectedEstablishment($selectedPrediction)
     {
-        $this->name = $selectedPrediction['description'];
+        if(empty($selectedPrediction)){
+            ray("Establishment not selected");
+        }
+
+        $this->name = $selectedPrediction['name'];
         $this->type = 'society';
     }
 
@@ -53,7 +55,6 @@ class EstablishmentCreateForm extends Component
         $user = Auth::user();
         return view('livewire.establishment-create-form', [
             'establishments' => $user->establishments,
-            'apiKey' => config('services.google_maps.api_key'),
         ]);
     }
 }

@@ -33,7 +33,7 @@ class GooglePlacesAutocomplete extends Component
         $url = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" . urlencode($placeId) 
             . "&key=" . $apiKey
             . "&sesstiontoken=" . session()->getId()
-            . "&fields=formatted_address,name,geometry,type,vicinity,address_components,adr_address";
+            . "&fields=formatted_address,name,geometry,type,vicinity,address_components";
 
         $response = file_get_contents($url);
         $response = json_decode($response, true);

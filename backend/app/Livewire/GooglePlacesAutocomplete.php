@@ -46,7 +46,7 @@ class GooglePlacesAutocomplete extends Component
 
     public function selectPrediction($placeId)
     {
-        $this->predictions = [];
+        $this->reset('search', 'predictions');
         $prediction = $this->getPlace($placeId);
         $this->dispatch('place-selected', selectedPrediction: $prediction);
     }

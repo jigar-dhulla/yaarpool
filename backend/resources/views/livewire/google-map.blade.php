@@ -9,6 +9,7 @@
     let map;
     let userPosition;
     let marker;
+    let markers = [];
 
     async function initMap() {
         navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -23,6 +24,7 @@
                 map: map,
                 title: 'User Location',
             });
+            markers.push(marker);
             map.setCenter(userPosition);
         }
 
@@ -39,16 +41,30 @@
             map: map,
             title: 'Selected Establishment',
         });
+        markers.push(marker);
         map.setCenter(position);
     }
 
     function onPlaceSelected(place){
         userPosition = { "lat": place.geometry.location.lat, "lng": place.geometry.location.lng};
+        setMapOnAll(null);
+        markers = [];
         marker = new google.maps.Marker({
             position: userPosition,
             map: map,
             title: 'Selected Establishment',
         });
+        markers.push(marker);
         map.setCenter(userPosition);
+    }
+
+    function removeMarkers(){
+        setMapOnAll(null);
+    }
+
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
     }
 </script>

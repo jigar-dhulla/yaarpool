@@ -40,4 +40,9 @@ class Establishment extends Model
     {
         return $this->hasMany(Route::class, 'to_establishment_id');
     }
+
+    public function locations(): HasMany
+    {
+        return $this->hasMany(Location::class);
+    }
 }

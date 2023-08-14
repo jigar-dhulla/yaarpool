@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -9,6 +10,11 @@ class GoogleMap extends Component
 {
     public $lat = 18.532;
     public $lng = 73.944;
+
+    public function mount()
+    {
+        ray($this->lat, $this->lng);
+    }
     
     #[On('place-selected')] 
     public function changeMarker($selectedPrediction)

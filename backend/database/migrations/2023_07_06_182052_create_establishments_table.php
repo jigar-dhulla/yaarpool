@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('establishments', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->enum('type', ['sublocality', 'neighbourhood', 'point_of_interest', 'society']);
+            $table->string('type', 255);
             $table->timestamps();
             $table->softDeletes();
         });

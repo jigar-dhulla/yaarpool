@@ -18,7 +18,14 @@ class GooglePlacesAutocomplete extends Component
     {
         $apiKey = config('services.google_maps.api_key');
         // TODO: make service layer
-        $url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" . urlencode($search) . "&key=" . $apiKey;
+        $url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" . urlencode($search) 
+            . "&sesstiontoken=" . urlencode(session()->getId())
+            . "&location=" . urlencode('18.540023,73.947150')
+            // . "&components=country:" . auth()->user()->getCountryCode()
+            . "&components=country:in"
+            . "&type=" . urlencode('establishment')
+            . "&radius=5000"
+            . "&key=" . urlencode($apiKey);
 
         $response = file_get_contents($url);
         $predictions = json_decode($response, true);

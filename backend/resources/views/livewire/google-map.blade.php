@@ -5,7 +5,6 @@
     src="https://maps.googleapis.com/maps/api/js?key={{ $api_key }}&libraries=places&callback=initMap">
 </script>
 <script>
-    /* How to initialize the map */
     let map;
     let userPosition;
     let marker;
@@ -18,6 +17,7 @@
         }
         
         function showPosition(position) {
+            setMapOnAll(null);
             userPosition = { "lat": position.coords.latitude, "lng": position.coords.longitude};
             marker = new google.maps.Marker({
                 position: userPosition,

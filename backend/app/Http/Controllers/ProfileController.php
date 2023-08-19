@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileInformationUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -35,6 +37,24 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Update the user's profile information.
+     */
+    public function updateInformation(ProfileInformationUpdateRequest $request): RedirectResponse
+    {
+        $request->user()
+            ->profile()
+            ->updateOrCreate(
+                ['user_id' => $request->user()->getKey()],
+                array_merge(Arr::except($request->validated(), ['has_vehicle', 'four_wheeler']), [
+                    'has_vehicle' => $request->has('has_vehicle'),
+                    'four_wheeler' => $request->has('four_wheeler'),
+                ])
+            );
+
+        return Redirect::route('profile.edit')->with('status', 'profile-information-updated');
     }
 
     /**

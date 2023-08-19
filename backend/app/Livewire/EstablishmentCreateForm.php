@@ -47,10 +47,10 @@ class EstablishmentCreateForm extends Component
         $user->establishments()->attach($establishment, [
             'role_id' => Role::whereName(Role::ROLE_ADMIN)->first()->id
         ]);
-        $location = $this->selectedEstablishment['geometry']['location'] ?? null;
+        $geometry = $this->selectedEstablishment['geometry']['location'] ?? null;
         /** @var Location $location */
         $location = $establishment->locations()->create([
-            'coordinates' => DB::raw("POINT({$location['lat']}, {$location['lng']})"),
+            'coordinates' => DB::raw("POINT({$geometry['lat']}, {$geometry['lng']})"),
         ]);
         $location->addresses()->create([
             'name' => $this->selectedEstablishment['name'],
